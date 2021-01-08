@@ -64,7 +64,7 @@ for (dDay, dayAfter) in dateList:
         c.Lang = "en"
         c.Min_likes=25
         c.Limit = 10000
-        # Nombre de tweets récupérés
+        # Affichage du nombre de tweets récupérés
         c.Count = True
         # Nous désirons stocker un fichier json contenant l’ensemble des tweets récupérés
         c.Store_json = True
