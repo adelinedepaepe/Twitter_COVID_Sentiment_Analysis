@@ -46,7 +46,7 @@ print (dateList)
 for (dDay, dayAfter) in dateList:
     print(dDay)
     print(dDay, dayAfter)
-    if not os.path.exists ( f".\Data\{dDay}.json" ):
+    if not os.path.exists ( f"C:\\Users\\Administrateur\\PycharmProjects\\Data_Twitter_COVID_Sentiment_Analysis\\{dDay}.json" ):
 
         # #nom du fichier json qui sera produit dans le dossier Data
         filename = dDay+".json"
@@ -69,7 +69,7 @@ for (dDay, dayAfter) in dateList:
         # Nous désirons stocker un fichier json contenant l’ensemble des tweets récupérés
         c.Store_json = True
         # Nom du fichier json dans lequel les tweets seront enregistrés
-        c.Output = '.\\Data\\'+filename
+        c.Output = 'C:\\Users\\Administrateur\\PycharmProjects\\Data_Twitter_COVID_Sentiment_Analysis'+filename
         # Stockage dans elasticsearch
         #c.Elasticsearch = "localhost:9200"
 
