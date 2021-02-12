@@ -27,7 +27,7 @@ def connect_to_twitter_OAuth():
 api = connect_to_twitter_OAuth()
 
 #COllecte de tweets
-a = datetime.datetime.strptime ( f'2021-02-01 15:00:00', '%Y-%m-%d %H:%M:%S' )
+a = datetime.datetime.strptime ( f'2021-02-07 15:00:00', '%Y-%m-%d %H:%M:%S' )
 
 for x in range (0,numdays):
     dDay = str ( a.date () - datetime.timedelta ( days=x ) )
@@ -54,11 +54,7 @@ def extract_tweet_attributes(tweet_object):
             favorite_count = tweet.favorite_count
             retweet_count = tweet.retweet_count
             created_at = tweet.created_at  # utc time tweet created
-            source = tweet.source  # utility used to post tweet
-            reply_to_status = tweet.in_reply_to_status_id  # if reply int of orginal tweet id
-            reply_to_user = tweet.in_reply_to_screen_name  # if reply original tweetes screenname
-            retweets = tweet.retweet_count  # number of times this tweet retweeted
-            favorites = tweet.favorite_count  # number of time this tweet liked
+
         else:
             tweet_id = tweet.id  # unique integer identifier for tweet
             user_id = tweet.user.id
@@ -69,11 +65,7 @@ def extract_tweet_attributes(tweet_object):
             favorite_count = tweet.favorite_count
             retweet_count = tweet.retweet_count
             created_at = tweet.created_at  # utc time tweet created
-            source = tweet.source  # utility used to post tweet
-            reply_to_status = tweet.in_reply_to_status_id  # if reply int of orginal tweet id
-            reply_to_user = tweet.in_reply_to_screen_name  # if reply original tweetes screenname
-            retweets = tweet.retweet_count  # number of times this tweet retweeted
-            favorites = tweet.favorite_count  # number of time this tweet liked
+
 
         # append attributes to list
         tweet_list.append ( {'tweet_id': tweet_id,
@@ -84,12 +76,7 @@ def extract_tweet_attributes(tweet_object):
                              'text': text,
                              'favorite_count': favorite_count,
                              'retweet_count': retweet_count,
-                             'created_at': created_at,
-                             'source': source,
-                             'reply_to_status': reply_to_status,
-                             'reply_to_user': reply_to_user,
-                             'retweets': retweets,
-                             'favorites': favorites} )
+                             'created_at': created_at} )
     # create dataframe
     df = pd.DataFrame ( tweet_list, columns=['tweet_id',
                                              'user_id',
@@ -99,12 +86,7 @@ def extract_tweet_attributes(tweet_object):
                                              'text',
                                              'favorite_count',
                                              'retweet_count',
-                                             'created_at',
-                                             'source',
-                                             'reply_to_status',
-                                             'reply_to_user',
-                                             'retweets',
-                                             'favorites'] )
+                                             'created_at'] )
     return df
 
 # ##Extraction TWINT
@@ -118,6 +100,7 @@ for (dDay, dayAfter) in dateList:
         covid_tweets = tweepy.Cursor(api.search, q='covid', since= dDay, until=dayAfter, lang="en").items(1000)
 
         df = extract_tweet_attributes(covid_tweets)
-        print(df)
-
-        df.to_json(f"C:\\Users\\Administrateur\\PycharmProjects\\Data_Twitter_COVID_Sentiment_Analysis_API\\{dDay}.json", orient='records')
+        if df.columns.array.size > 0:
+            df.to_json(f"C:\\Users\\Administrateur\\PycharmProjects\\Data_Twitter_COVID_Sentiment_Analysis_API\\{dDay}.json", orient='records')
+        else:
+            break

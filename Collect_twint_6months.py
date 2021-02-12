@@ -11,7 +11,6 @@ import twint
 # twint.run.Search(c)
 ## Liste des dates
 import datetime
-import numpy as np
 import os
 
 numdays = 365
@@ -30,7 +29,7 @@ dateList = []
     # sec = str ( np.random.randint ( 60, size=1 )[0] )
     # if len ( hour ) < 2:
     #     hour = '0' + hour
-a = datetime.datetime.strptime ( f'2021-01-07 15:00:00', '%Y-%m-%d %H:%M:%S' )
+a = datetime.datetime.strptime ( f'2021-02-08 15:00:00', '%Y-%m-%d %H:%M:%S' )
 
 for x in range (0,numdays):
     dDay = str ( a.date () - datetime.timedelta ( days=x ) )
@@ -46,10 +45,10 @@ print (dateList)
 for (dDay, dayAfter) in dateList:
     print(dDay)
     print(dDay, dayAfter)
-    if not os.path.exists ( f"C:\\Users\\Administrateur\\PycharmProjects\\Data_Twitter_COVID_Sentiment_Analysis\\{dDay}.json" ):
+    if not os.path.exists ( f"C:\\Users\\Administrateur\\PycharmProjects\\Data_Twitter_COVID_Sentiment_Analysis_Twint\\Twint_{dDay}.json" ):
 
         # #nom du fichier json qui sera produit dans le dossier Data
-        filename = dDay+".json"
+        filename = "Twint_"+dDay+".json"
         #
         # #lancement de l’objet twint
         c = twint.Config()
@@ -60,18 +59,16 @@ for (dDay, dayAfter) in dateList:
         # On veut créer un fichier par jour
         c.Since = dDay
         c.Until = dayAfter
-        c.Lang = "fr"
+        #c.Lang = "fr"
         c.Lang = "en"
-        c.Min_likes=25
+        c.Min_likes=15
         c.Limit = 10000
         # Affichage du nombre de tweets récupérés
         c.Count = True
         # Nous désirons stocker un fichier json contenant l’ensemble des tweets récupérés
         c.Store_json = True
         # Nom du fichier json dans lequel les tweets seront enregistrés
-        c.Output = 'C:\\Users\\Administrateur\\PycharmProjects\\Data_Twitter_COVID_Sentiment_Analysis\\'+filename
-        # Stockage dans elasticsearch
-        #c.Elasticsearch = "localhost:9200"
+        c.Output = 'C:\\Users\\Administrateur\\PycharmProjects\\Data_Twitter_COVID_Sentiment_Analysis_Twint\\'+filename
 
         # Lancement de la recherche
         twint.run.Search(c)
